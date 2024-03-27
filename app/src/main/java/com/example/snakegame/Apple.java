@@ -12,7 +12,7 @@ class Apple extends GameObject{
 
     // The location of the apple on the grid
     // Not in pixels
-    private Point location = new Point();
+    //private Point location = new Point();
 
     // The range of values we can choose from
     // to spawn an apple
@@ -25,8 +25,9 @@ class Apple extends GameObject{
 
     /// Set up the apple in the constructor
     Apple(Context context, Point sr, int s){
-
-        super(s);
+//new code
+        super(sr, s);
+        location = new Point();
 
         // Make a note of the passed in spawn range
         mSpawnRange = sr;
