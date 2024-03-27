@@ -11,7 +11,7 @@ import android.view.MotionEvent;
 
 import java.util.ArrayList;
 
-class Snake {
+class Snake implements MoveInterface, DrawInterface {
 
     // The location in the grid of all the segments
     private ArrayList<Point> segmentLocations;
@@ -134,7 +134,8 @@ class Snake {
     }
 
 
-    void move() {
+    @Override
+    public void move() {
         // Move the body
         // Start at the back and move it
         // to the position of the segment in front of it
@@ -212,7 +213,7 @@ class Snake {
         return false;
     }
 
-    void draw(Canvas canvas, Paint paint) {
+    public void draw(Canvas canvas, Paint paint) {
 
         // Don't run this code if ArrayList has nothing in it
         if (!segmentLocations.isEmpty()) {

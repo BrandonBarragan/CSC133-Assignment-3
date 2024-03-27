@@ -8,7 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import java.util.Random;
 
-class Apple {
+class Apple extends GameObject{
 
     // The location of the apple on the grid
     // Not in pixels
@@ -17,13 +17,16 @@ class Apple {
     // The range of values we can choose from
     // to spawn an apple
     private Point mSpawnRange;
-    private int mSize;
+
+    //private int mSize;
 
     // An image to represent the apple
     private Bitmap mBitmapApple;
 
     /// Set up the apple in the constructor
     Apple(Context context, Point sr, int s){
+
+        super(s);
 
         // Make a note of the passed in spawn range
         mSpawnRange = sr;
@@ -54,7 +57,7 @@ class Apple {
     }
 
     // Draw the apple
-    void draw(Canvas canvas, Paint paint){
+    public void draw(Canvas canvas, Paint paint){
         canvas.drawBitmap(mBitmapApple,
                 location.x * mSize, location.y * mSize, paint);
 

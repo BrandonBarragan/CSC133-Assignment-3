@@ -7,7 +7,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.view.MotionEvent;
-public class Pause {
+public class Pause implements DrawInterface {
     private Bitmap mBitmapPause;
     private int mSize;
     private Point location = new Point();
@@ -18,7 +18,7 @@ public class Pause {
         mBitmapPause = Bitmap.createScaledBitmap(mBitmapPause, s, s, false);
     }
 
-    void draw(Canvas canvas, Paint paint){
+    public void draw(Canvas canvas, Paint paint){
         int x = 2120;
         int y = 120;
         canvas.drawBitmap(mBitmapPause,
