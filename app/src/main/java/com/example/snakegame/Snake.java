@@ -132,6 +132,9 @@ class Snake implements MoveInterface, DrawInterface {
         // Start with a single snake segment
         segmentLocations.add(new Point(w / 2, h / 2));
     }
+    void reset(Point startPosition) {
+        reset(startPosition.x, startPosition.y);
+    }
 
 
     @Override

@@ -51,6 +51,12 @@ class Apple extends GameObject{
         location.y = random.nextInt(mSpawnRange.y - 1) + 1;
     }
 
+    void spawn(int x, int y) {
+        // Set the apple's location to the specified coordinates
+        location.x = x;
+        location.y = y;
+    }
+
     // Let SnakeGame know where the apple is
     // SnakeGame can share this with the snake
     Point getLocation(){

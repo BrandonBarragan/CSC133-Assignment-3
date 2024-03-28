@@ -23,6 +23,8 @@ import android.graphics.Rect;
 
 class SnakeGame extends SurfaceView implements Runnable{
 
+    private long mUpdatePeriod = 100; // Initial update period in milliseconds.
+
     // Objects for the game loop/thread
     private Thread mThread = null;
     // Control pausing between updates
@@ -133,6 +135,8 @@ class SnakeGame extends SurfaceView implements Runnable{
         // Reset the mScore
         mScore = 0;
 
+        mUpdatePeriod = 100; // Set this to your game's initial update period
+
         // Setup mNextFrameTime so an update can triggered
         mNextFrameTime = System.currentTimeMillis();
     }
@@ -156,57 +160,42 @@ class SnakeGame extends SurfaceView implements Runnable{
 
     // Check to see if it is time for an update
     public boolean updateRequired() {
+        // Capture the current system time
+        final long currentTime = System.currentTimeMillis();
 
-        // Run at 10 frames per second
-        final long TARGET_FPS = 10;
-        // There are 1000 milliseconds in a second
-        final long MILLIS_PER_SECOND = 1000;
+        // Check if the current time has surpassed the time for the next frame update
+        if (mNextFrameTime <= currentTime) {
+            // Adjust the next update time by adding the dynamic update period to the current time
+            mNextFrameTime = currentTime + mUpdatePeriod;
 
-        // Are we due to update the frame
-        if(mNextFrameTime <= System.currentTimeMillis()){
-            // Tenth of a second has passed
-
-            // Setup when the next update will be triggered
-            mNextFrameTime =System.currentTimeMillis()
-                    + MILLIS_PER_SECOND / TARGET_FPS;
-
-            // Return true so that the update and draw
-            // methods are executed
+            // Indicate that an update is required
             return true;
         }
 
+        // If the next frame time has not been reached, indicate that no update is required
         return false;
     }
 
 
+
     // Update all the game objects
     public void update() {
-
-        // Move the snake
         mSnake.move();
-
-        // Did the head of the snake eat the apple?
-        if(mSnake.checkDinner(mApple.getLocation())){
-            // This reminds me of Edge of Tomorrow.
-            // One day the apple will be ready!
+        if (mSnake.checkDinner(mApple.getLocation())) {
             mApple.spawn();
-
-            // Add to  mScore
             mScore = mScore + 1;
-
-            // Play a sound
             mSP.play(mEat_ID, 1, 1, 0, 0, 1);
-        }
 
-        // Did the snake die?
+            // Increase the game speed by reducing the update period.
+            // Ensure there's a limit to how fast the game can go to keep it playable.
+            mUpdatePeriod = Math.max(mUpdatePeriod - 10, 20); // Example: reduce by 10ms, minimum 20ms.
+        }
         if (mSnake.detectDeath()) {
-            // Pause the game ready to start again
             mSP.play(mCrashID, 1, 1, 0, 0, 1);
-
-            mPaused =true;
+            mPaused = true;
         }
-
     }
+
 
 
     // Do all the drawing
